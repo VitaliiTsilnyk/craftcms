@@ -104,11 +104,12 @@ class Command extends \yii\db\Command
             $params = [];
             Craft::$app->getDeprecator()->log('craft\\db\\Command::upsert($includeAuditColumns)', 'The $includeAuditColumns argument on craft\\db\\Command::upsert() has been moved to the 5th position');
         }
+        
+        if ($updateColumns === true) {
+            $updateColumns = array_merge($insertColumns);
+        }
 
         if ($includeAuditColumns && $updateColumns !== false) {
-            if ($updateColumns === true) {
-                $updateColumns = array_merge($insertColumns);
-            }
             $now = Db::prepareDateForDb(new \DateTime());
             $updateColumns['dateCreated'] = $now;
             $updateColumns['dateUpdated'] = $now;
